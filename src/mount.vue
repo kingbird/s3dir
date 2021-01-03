@@ -33,8 +33,8 @@ export default {
     methods: {
         getService() {
             let cos = new COS({
-                SecretId: 'AKIDPnwpTt7zfLnzwdHKK5qOhlaBXeXSlalg',
-                SecretKey: 'rTpvxmMZZMtBDF2ZsvkKeilbCYfnmZ7b'
+                SecretId: localStorage.getItem('SecretId'),
+                SecretKey: localStorage.getItem('SecretKey')
             });
             // let vm = this;
             cos.getService({
