@@ -131,4 +131,21 @@ input[type="search"]::-webkit-search-decoration {
         bottom: 0;
         left:180px;
     }
+@media (max-width: 768px) {
+  .logo {
+    width: 120px;
+  }
+  .sidebar {
+    display: none;
+  }
+  .content {
+    left:0;
+  }
+  .files-header .type, .files-body .type, .files-header .size, .files-body .size, .files-header .modifytime, .files-body .modifytime {
+    display: none;
+  }
+  .files-header .name, .files-body .name {
+    width: calc(100% - 0px)!important;
+  }
+}
 </style>
