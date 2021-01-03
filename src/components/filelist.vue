@@ -41,7 +41,9 @@ import xbytes from 'xbytes';
 import moment from 'moment';
 import pagination from './Pagination';
 import pathformat from '../utils/pathformat';
+import getFileType from '../utils/getFileType';
 import VueGallery from 'vue-gallery';
+import iconfolder from '../assets/file_type/folder/folder.svg';
 
 export default {
     name: 'filelist',
@@ -114,6 +116,7 @@ export default {
                     for (let i = 0; i < commonPrefixes.length; i++) {
                         let prefix = commonPrefixes[i].Prefix;
                         vm.fileList.push({
+                            thumbnail: `<img src="${iconfolder}"/>`,
                             name: prefix.replace(requestPrefix, '').replace('/', ''),
                             prefix: encodeURIComponent(prefix),
                             type: '文件夹',
@@ -126,7 +129,7 @@ export default {
                         vm.fileList.push({
                             thumbnail: `<img src="${cdnDomain + contentData[i].Key}!thumbnail"/>`,
                             name: contentData[i].Key.replace(requestPrefix, ''),
-                            type: '',
+                            type: getFileType(contentData[i].Key) + '文件',
                             size: xbytes(contentData[i].Size),
                             modifyTime: moment(contentData[i].LastModified).fromNow(),
                             isFile: true,
@@ -190,10 +193,14 @@ export default {
         .type, .size {
             float:left;
             width:100px;
+            color:rgba(26,39,52,.4);
+            font-size:12px;
         }
         .modifytime {
             float:left;
             width:150px;
+            color:rgba(26,39,52,.4);
+            font-size:12px;
         }
     }
     .files-header {
@@ -201,6 +208,9 @@ export default {
         right:0;
         left:0;
         height:100px;
+        .name {
+            width:calc(100% - 360px);
+        }
     }
     .files-body {
         top:100px;
