@@ -124,7 +124,7 @@ export default {
                 if (contentData.length > 0) {
                     for (let i = 1; i < contentData.length; i++) {
                         vm.fileList.push({
-                            thumbnail: `<img src="${cdnDomain + contentData[i].Key}"/>`,
+                            thumbnail: `<img src="${cdnDomain + contentData[i].Key}!thumbnail"/>`,
                             name: contentData[i].Key.replace(requestPrefix, ''),
                             type: '',
                             size: xbytes(contentData[i].Size),
