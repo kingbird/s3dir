@@ -145,7 +145,7 @@ input[type="search"]::-webkit-search-decoration {
     display: none;
   }
   .files-header .name, .files-body .name {
-    width: calc(100% - 0px)!important;
+    width: calc(100% - 50px)!important;
   }
 }
 </style>

@@ -13,10 +13,18 @@
                 </li>
             </ul>
         </div>
+        <gallery :images="images" :index="index" @close="index = null"></gallery>
         <div class="files-body">
             <ul>
-                <li v-for="item in fileList" :key="item.name">
-                    <div class="name" @click="nameClickHandler(item.isFile, item.prefix, item.fileLink)"><a href="javascript:;" title="">{{ item.name }}</a></div>
+                <li v-for="(item, itemindex) in fileList" :key="item.name">
+                    <div class="thumbnail"
+                         @click="index = itemindex"
+                         :style="{ backgroundImage: 'url(' + item.thumbnail + ')', width: '40px', height: '40px' }">
+                        <span v-html="item.thumbnail"></span>
+                    </div>
+                    <div class="name" @click="nameClickHandler(item.isFile, item.prefix, item.fileLink)">
+                        <a href="javascript:;" title="">{{ item.name }}</a>
+                    </div>
                     <div class="size">{{ item.size }}</div>
                     <div class="type">{{ item.type }}</div>
                     <div class="modifytime">{{ item.modifyTime }}</div>
@@ -33,18 +41,23 @@ import xbytes from 'xbytes';
 import moment from 'moment';
 import pagination from './Pagination';
 import pathformat from '../utils/pathformat';
+import VueGallery from 'vue-gallery';
+
 export default {
     name: 'filelist',
     components: {
-        pagination
+        pagination,
+        'gallery': VueGallery
     },
     data() {
         return {
             fileList: [],
             isHasNextMarker: false,
             isNameClick: false,
-            nextMarker: ''
-        }
+            nextMarker: '',
+            images: [],
+            index: null
+        };
     },
     watch: {
         $route(newVal, oldVal) {
@@ -72,6 +85,7 @@ export default {
         getlist(prefix = '', marker, maxkeys = 30) {
             const cdnDomain = 'https://xr-1251228077.file.myqcloud.com/';
             this.fileList = [];
+            this.images = [];
             const conf = {
                 Bucket: 'xr-1251228077', /* 必须 */
                 Region: 'ap-shanghai'
@@ -102,6 +116,7 @@ export default {
                         vm.fileList.push({
                             name: prefix.replace(requestPrefix, '').replace('/', ''),
                             prefix: encodeURIComponent(prefix),
+                            type: '文件夹',
                             isFile: false
                         });
                     }
@@ -109,13 +124,15 @@ export default {
                 if (contentData.length > 0) {
                     for (let i = 1; i < contentData.length; i++) {
                         vm.fileList.push({
+                            thumbnail: `<img src="${cdnDomain + contentData[i].Key}"/>`,
                             name: contentData[i].Key.replace(requestPrefix, ''),
-                            type:'',
+                            type: '',
                             size: xbytes(contentData[i].Size),
                             modifyTime: moment(contentData[i].LastModified).fromNow(),
                             isFile: true,
                             fileLink: cdnDomain + contentData[i].Key
                         });
+                        vm.images.push(cdnDomain + contentData[i].Key);
                     }
                 }
                 vm.$nextTick(() => {
@@ -168,7 +185,7 @@ export default {
         }
         .name {
             float:left;
-            width:calc(100% - 350px);
+            width:calc(100% - 400px);
         }
         .type, .size {
             float:left;
@@ -192,5 +209,18 @@ export default {
         left:0;
         overflow-x: hidden;
         overflow-y: auto;
+    }
+    .thumbnail {
+        float:left;
+        width:40px;
+        height:40px;
+        margin-top:-10px;
+        margin-right:10px;
+        img {
+            width:40px;
+            height:40px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
     }
 </style>
