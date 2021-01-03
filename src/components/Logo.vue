@@ -1,6 +1,6 @@
 <template>
     <div class="logo">
-        <a :href="s3link" :title="s3name">Logo</a>
+        <a :href="s3link" :title="s3name">S3Directory</a>
     </div>
 </template>
 
@@ -19,3 +19,11 @@ export default {
     }
 };
 </script>
+
+<style lang="less">
+.logo {
+    width:180px;
+    text-align: center;
+    line-height: 60px;
+}
+</style>

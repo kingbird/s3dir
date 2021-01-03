@@ -9,7 +9,11 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "cos-js-sdk-v5": "^1.1.5",
+    "moment": "^2.29.1",
+    "vue": "^2.6.11",
+    "vue-router": "^3.4.9",
+    "xbytes": "^1.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
